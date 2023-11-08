@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {NavbarComponent } from '../components/NavbarComponent';
 import { PanelComponent } from '../components/PanelComponent';
 
+ 
 export const HomeLayout: React.FC = () => {
   return (
     <SectionContainer>

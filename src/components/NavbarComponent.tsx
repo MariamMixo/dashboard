@@ -1,80 +1,114 @@
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import logo from '../assets/logo/logo.png';
+import panel from '../assets/icons/panel.png';
+import dipositivos from '../assets/icons/dispositivos.png';
+import stock from '../assets/icons/stock.png';
+import ajustes from '../assets/icons/ajustes.png';
+import billing from "../assets/icons/billing.png";
+import other from "../assets/icons/otros.png"
 
-import styled from "styled-components";
-
-import logo from "../assets/logo/logo.png";
-import panel from "../assets/icons/panel.png";
-import dipositivos from "../assets/icons/dispositivos.png";
-import stock from "../assets/icons/stock.png";
-import ajustes from "../assets/icons/ajustes.png"
-
-export const NavbarComponent = () => {
-    const menu = [
-        { name: 'Panel', img: panel },
-        { name: 'Dispositivos', img: dipositivos },
-        { name: 'Stock', img: stock },
-        { name: 'Ajustes', img: ajustes  },
-      ];
-    return (
-        <SectionNavbar>
-          <NavbarContainer>
-            <LogoImage src={logo} alt="" />
-    
-            <MenuList>
-              {menu.map((item, index) => {
-                return (
-                  <MenuItem key={index} style={{ color: '#000' }}>
-                    <IconImage src={item.img} alt="" />
-                    <ItemName>{item.name}</ItemName>
-                  </MenuItem>
-                );
-              })}
-            </MenuList>
-          </NavbarContainer>
-        </SectionNavbar>
-      );
+interface SectionLogoProps {
+  colorStart?: string;
+  colorEnd?: string;
 }
 
+export const NavbarComponent = () => {
+  const menu = [
+    { name: 'Panel', img: panel },
+    { name: 'Dispositivos', img: dipositivos },
+    { name: 'Facturación', img: billing },
+    { name: 'Stock', img: stock },
+    { name: 'Otros', img: other },
+    { name: 'Ajustes', img: ajustes },
+  ];
+  return (
+    <SectionNavbar>
+      <SectionLogo colorStart="#BD9CFF" colorEnd="#FFAF63">
+        <LogoImage src={logo} alt="" />
+      </SectionLogo>
+      <NavbarContainer>
+      <MenuList>
+        {menu.map((item, index) => (
+          <Link to={`/${item.name.toLowerCase()}`} key={index} style={{ textDecoration: 'none' }}>
+            <MenuItem style={{ color: '#000' }}>
+              <IconImage src={item.img} alt="" />
+              <ItemName>{item.name}</ItemName>
+            </MenuItem>
+          </Link>
+        ))}
+      </MenuList>
+      </NavbarContainer>
+    </SectionNavbar>
+  );
+};
+
 const SectionNavbar = styled.section`
-  width: 20%;
-  height: 100%;
-  background-color: #ffffff;
+  width: 17%; 
+  height: 95%;
+  background-color: #f4f4f4;
   position: fixed;
   top: 0;
   left: 0;
+  margin: 10px;
+  border-radius: 15px; 
 `;
 
-const NavbarContainer = styled.div`
-  margin: 30px;
-  height: 90%;
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
+
+const SectionLogo = styled.section<SectionLogoProps>`
+  height: 5%;
+  border-radius: 10px;
+  display: flex; 
+  align-items: center; 
+  background: linear-gradient(
+    to right,
+    ${(props) => props.colorStart || '#BD9CFF'},
+    ${(props) => props.colorEnd || '#FFAF63'}
+  );
 `;
 
 const LogoImage = styled.img`
-  width: 110px;
-  height: 40px;
+  width: 66px;
+  height: 24px;
+  margin-left: 30px;
 `;
+
+const NavbarContainer = styled.div`
+  border-radius: 20px;
+  height: 95%;
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+`;
+
 
 const MenuList = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 35px;
 `;
 
 const MenuItem = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
   cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+  }
 `;
 
 const IconImage = styled.img`
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
 `;
 
-const ItemName = styled.h3`
+const ItemName = styled.div`
   margin: 0;
+  font-size: 16px;
 `;
-
