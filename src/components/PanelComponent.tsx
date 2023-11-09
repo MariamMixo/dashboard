@@ -1,10 +1,9 @@
-
 import styled from 'styled-components';
+import { useState } from 'react';
 
 import alerta from '../assets/png/alertas.png';
 import message from '../assets/icons/message.png';
-import close from "../assets/png/close.png"
-
+import close from '../assets/icons/close.png';
 
 const getColor = (cantidad: number) => {
   if (cantidad < 100) {
@@ -15,8 +14,12 @@ const getColor = (cantidad: number) => {
     return '#00FF66';
   }
 };
-
 export const PanelComponent = () => {
+  const [isDiscriptionVisible, setDiscriptionVisible] = useState(true);
+
+  const handleIconClick = () => {
+    setDiscriptionVisible(false);
+  };
 
   interface ListItemData {
     id: number;
@@ -46,21 +49,23 @@ export const PanelComponent = () => {
   return (
     <SectionContent>
       <TitlePanel>Control Panel</TitlePanel>
-      <DescriptionPanel>
-        <DescriptionText>
-          <InfoIcon>
-            <img src={message} alt="" />
-            <span>Informacion</span>
-          </InfoIcon>
-          Bienvenido a tu Mixo Dashboard! <br></br>
-          Esta es la pantalla del Panel de Control donde encontrará acceso Componentes del
-          salpicadero como facturación, alertas o stock.<br></br>
-          En el menú lateral puede encontrar la página con los detalles de cada compon.
-          <IconClose>
-            <img src={close} alt=''/>
-          </IconClose>
-        </DescriptionText>
-      </DescriptionPanel>
+      {isDiscriptionVisible && (
+        <DescriptionPanel>
+          <DescriptionText>
+            <InfoIcon>
+              <img src={message} alt="" />
+              <span>Informacion</span>
+            </InfoIcon>
+            <p>Bienvenido a tu Mixo Dashboard!<br></br>
+            Esta es la pantalla del Panel de Control donde encontrará acceso Componentes del
+            salpicadero como facturación, alertas o stock.<br></br>
+            En el menú lateral puede encontrar la página con los detalles de cada compon.</p>
+            <IconClose onClick={handleIconClick}>
+              <img src={close} alt="" />
+            </IconClose>
+          </DescriptionText>
+        </DescriptionPanel>
+      )}
       <SectionPanel>
         <BillingInfo>
           <BillingWrapper>
@@ -91,12 +96,13 @@ export const PanelComponent = () => {
             <ListItemWrapper>
               {List.map((item, index) => (
                 <ListItem key={index} cantidad={item.cantidad}>
-                  <p className="status">{item.status}</p>
-                  <p className="item">{item.item}</p>
+                  <p>{item.status}</p>
+                  <p>{item.item}</p>
                 </ListItem>
               ))}
             </ListItemWrapper>
             <Alerts>
+              <AlertTitle>Alertas</AlertTitle>
               <AlertImage src={alerta} alt="Alerta" />
               <AlertText>No hay alertas</AlertText>
             </Alerts>
@@ -130,9 +136,7 @@ const DescriptionPanel = styled.div`
   height: 135px;
   background-color: #c3def6;
   border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  position: relative;
   padding: 10px;
   margin: 10px 0 20px 0;
 `;
@@ -140,16 +144,16 @@ const DescriptionText = styled.div`
   font-family: 'Montserrat', sans-serif;
   font-size: 12px;
   text-align: left;
-  padding: 10px;
-  line-height: 1, 5;
+  line-height: 1.5;
 `;
 const InfoIcon = styled.div`
   display: flex;
   align-items: center;
+  line-height: 1.5; 
 
   img {
-    width: 24px;
-    height: 24px; 
+    width: 20px;
+    height: 20.06px; 
     margin-right: 8px; 
   }
   span {
@@ -158,12 +162,14 @@ const InfoIcon = styled.div`
 }
 `;
 const IconClose = styled.div`
-align-self: flex-start;
-
-img {
-  width: 24px;
-  height: 24px;
-}
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  img {
+    width: 14.92px;
+    height: 15.27px;
+  }
 `;
 const SectionPanel = styled.section`
   display: flex;
@@ -191,22 +197,36 @@ const BillingTitle = styled.div`
   font-size: 25px;
   font-weight: 400;
 `;
-const CalendarContainer = styled.div``;
+const CalendarContainer = styled.div`
+  margin: 30px 0 30px 0;
+`;
 
-const Billings = styled.div``;
+const Billings = styled.div`
+  font-family: 'Montserrat', sans-serif;
+  margin: 30px 0;
+`;
 const Combined = styled.div`
   width: 316px;
   height: 156px;
   border-radius: 10px;
   background-color: ${(props) => props.color};
   text-align: center;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 
   p {
     font-size: 20px;
+    position: relative;
+    bottom: 20px;
   }
 
   p:nth-child(2) {
     font-size: 36px;
+    position: relative;
+    top: 20px;
   }
 `;
 const Refreshments = styled.div`
@@ -215,13 +235,22 @@ const Refreshments = styled.div`
   border-radius: 10px;
   background-color: ${(props) => props.color};
   text-align: center;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 
   p {
     font-size: 20px;
+    position: relative;
+    bottom: 20px;
   }
 
   p:nth-child(2) {
     font-size: 36px;
+    position: relative;
+    top: 20px;
   }
 `;
 const Water = styled.div`
@@ -230,17 +259,27 @@ const Water = styled.div`
   border-radius: 10px;
   background-color: ${(props) => props.color};
   text-align: center;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 
   p {
     font-size: 20px;
+    position: relative;
+    bottom: 20px;
   }
 
   p:nth-child(2) {
     font-size: 36px;
+    position: relative;
+    top: 20px;
   }
 `;
 
 const MaintenianceInfo = styled.div`
+  font-family: 'Montserrat', sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -272,12 +311,17 @@ const ListItemWrapper = styled.div`
 `;
 
 const ListItem = styled.div<{ cantidad: number }>`
+  /*problema: 178Mbs, font-size*/
   width: 126px;
   height: 154px;
   background-color: rgba(0, 71, 255, 0.2);
   border-radius: 10px;
   margin: 5px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   &::before {
     content: '';
@@ -291,23 +335,23 @@ const ListItem = styled.div<{ cantidad: number }>`
     margin: 5px;
   }
   p {
-    font-size: 40px;
-    margin: 20px;
+    
   }
 
   p.status {
     font-size: 40px;
-    margin: 25px 0;
+    top: 10px;
   }
 
   p.item {
-    font-size: 20px;
-    margin: ;
+    font-size: 14px;
+    bottom: 30px;
   }
 `;
 const Alerts = styled.div`
   width: 442px;
   height: 584px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -327,7 +371,15 @@ const AlertText = styled.p`
   color: white;
   font-size: ;
 `;
+const AlertTitle = styled.div`
+font-family: 'Montserrat', sans-serif;
+font-size: 24px; 
+position: absolute;
+top: 0;
+left: 0;
+margin: 10px;
 
+`;
 const MaintenianceTitle = styled.div`
   font-family: 'Montserrat', sans-serif;
   font-size: 25px;

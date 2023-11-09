@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo/logo.png';
 import panel from '../assets/icons/panel.png';
-import dipositivos from '../assets/icons/dispositivos.png';
-import stock from '../assets/icons/stock.png';
+import dipositivos from '../assets/icons/dispositivos1.png';
+import stock from '../assets/icons/settings.png';
 import ajustes from '../assets/icons/ajustes.png';
-import billing from "../assets/icons/billing.png";
-import other from "../assets/icons/otros.png"
+import billing from "../assets/icons/billings.png";
+import other from "../assets/icons/tool.png"
 
 interface SectionLogoProps {
   colorStart?: string;
@@ -44,6 +44,7 @@ export const NavbarComponent = () => {
 };
 
 const SectionNavbar = styled.section`
+font-family: 'Montserrat', sans-serif;
   width: 17%; 
   height: 95%;
   background-color: #f4f4f4;
